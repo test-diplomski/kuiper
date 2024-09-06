@@ -22,6 +22,15 @@ jobs:
         - name: Move magnetar to parent directory
           run: mv magnetar ../magnetar
 
+        - name: Check additional repo
+          uses: actions/checkout@v4
+          with:
+            repository: 'test-diplomski/meridian'
+            path: 'meridian'
+
+        - name: Move meridian to parent directory
+          run: mv meridian ../meridian
+
         - name: Set up Go
           uses: actions/setup-go@v5
           with:
