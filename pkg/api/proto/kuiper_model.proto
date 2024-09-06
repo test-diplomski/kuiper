@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+option go_package = "github.com/c12s/kuiper/pkg/api";
+
+package proto;
+
+message Param {
+  string key = 1;
+  string value = 2;
+}
+
+message NamedParamSet {
+  string name = 1;
+  repeated Param paramSet = 2;
+}
+
+message Schema {
+  string name = 1;
+  string version = 2;
+}
+
+message NewStandaloneConfig {
+  string organization = 1;
+  string name = 2;
+  string version = 3;
+  string namespace = 4;
+  repeated Param paramSet = 5;
+  Schema schema = 6;
+}
+
+message StandaloneConfig {
+  string organization = 1;
+  string name = 2;
+  string version = 3;
+  string namespace = 4;
+  string createdAt = 5;
+  repeated Param paramSet = 6;
+}
+
+message NewConfigGroup {
+  string organization = 1;
+  string name = 2;
+  string version = 3;
+  string namespace = 4;
+  repeated NamedParamSet paramSets = 5;
+  Schema schema = 6;
+}
+
+message ConfigGroup {
+  string organization = 1;
+  string name = 2;
+  string version = 3;
+  string namespace = 4;
+  string createdAt = 5;
+  repeated NamedParamSet paramSets = 6;
+}
+
+message ConfigId {
+  string organization = 1;
+  string name = 2;
+  string version = 3;
+  string namespace = 4;
+}
+
+message PlacementTask {
+  string id = 1;
+  string node = 2;
+  string status = 4;
+  string acceptedAt = 5;
+  string resolvedAt = 6;
+}
+
+message Diff {
+  string type = 1;
+  map<string, string> diff = 2;
+}
+
+message Diffs {
+  repeated Diff diffs = 1;
+}
+
+message ApplyConfigCommand {
+  bytes config = 1;
+  string taskId = 2;
+  string type = 3;
+  string namespace = 4;
+  string strategy = 5;
+}
+
+enum TaskStatus {
+  Placed = 0;
+  Failed = 1;
+}
+
+message ApplyConfigReply {
+  ApplyConfigCommand cmd = 1;
+  TaskStatus status = 2;
+}

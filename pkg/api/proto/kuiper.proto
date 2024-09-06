@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+import "kuiper_model.proto";
+import "magnetar.proto";
+
+package proto;
+
+service Kuiper {
+  rpc PutStandaloneConfig(NewStandaloneConfig) returns (StandaloneConfig) {}
+  rpc GetStandaloneConfig(ConfigId) returns (StandaloneConfig) {}
+  rpc ListStandaloneConfig(ListStandaloneConfigReq) returns (ListStandaloneConfigResp) {}
+  rpc DeleteStandaloneConfig(ConfigId) returns (StandaloneConfig) {}
+  rpc PlaceStandaloneConfig(PlaceReq) returns (PlaceResp) {}
+  rpc ListPlacementTaskByStandaloneConfig(ConfigId) returns (ListPlacementTaskResp) {}
+  rpc DiffStandaloneConfig(DiffReq) returns (DiffStandaloneConfigResp) {}
+  rpc PutConfigGroup(NewConfigGroup) returns (ConfigGroup) {}
+  rpc GetConfigGroup(ConfigId) returns (ConfigGroup) {}
+  rpc ListConfigGroup(ListConfigGroupReq) returns (ListConfigGroupResp) {}
+  rpc DeleteConfigGroup(ConfigId) returns (ConfigGroup) {}
+  rpc PlaceConfigGroup(PlaceReq) returns (PlaceResp) {}
+  rpc ListPlacementTaskByConfigGroup(ConfigId) returns (ListPlacementTaskResp) {}
+  rpc DiffConfigGroup(DiffReq) returns (DiffConfigGroupResp) {}
+}
+
+message ListStandaloneConfigReq {
+  string organization = 1;
+  string namespace = 2;
+}
+
+message ListStandaloneConfigResp {
+  repeated StandaloneConfig configurations = 1;
+}
+
+message DiffReq {
+  ConfigId reference = 1;
+  ConfigId diff = 2;
+}
+
+message DiffStandaloneConfigResp {
+  repeated Diff diffs = 1;
+}
+
+message ListConfigGroupReq {
+  string organization = 1;
+  string namespace = 2;
+}
+
+message ListConfigGroupResp {
+  repeated ConfigGroup groups = 1;
+}
+
+message DiffConfigGroupResp {
+  map<string, Diffs> diffs = 1;
+}
+
+message PlaceReq {
+  message Strategy {
+    string name = 1;
+    repeated Selector query = 2;
+    int32 percentage = 3;
+  }
+  ConfigId config = 1;
+  Strategy strategy = 3;
+}
+
+message PlaceResp {
+  repeated PlacementTask tasks = 1;
+}
+
+message ListPlacementTaskResp {
+  repeated PlacementTask tasks = 1;
+}
