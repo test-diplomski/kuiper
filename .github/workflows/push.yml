@@ -31,6 +31,15 @@ jobs:
         - name: Move meridian to parent directory
           run: mv meridian ../meridian
 
+        - name: Check additional repo
+          uses: actions/checkout@v4
+          with:
+            repository: 'test-diplomski/oort'
+            path: 'oort'
+
+        - name: Move oort to parent directory
+          run: mv oort ../oort
+
         - name: Set up Go
           uses: actions/setup-go@v5
           with:
